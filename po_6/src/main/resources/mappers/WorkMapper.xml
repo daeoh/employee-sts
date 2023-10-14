@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.board.mapper.WorkMapper">
+  	
+	<insert id="insertWork" parameterType="WorkDTO">
+		INSERT INTO work (no, work_on, work_off)
+		VALUES ((SELECT NO 
+			       FROM EMPLOYEE e
+			      WHERE e.name = #{name} 
+			        AND e.jumin_num = #{jumin})
+		      , SYSDATE
+		      , null)
+	</insert>
+	<update id="updateWork" parameterType="WorkDTO">
+		UPDATE WORK
+  		   SET work_off = SYSDATE 
+		 WHERE NO = (SELECT NO 
+			 		   FROM EMPLOYEE e
+			  		  WHERE e.name = #{name}
+			  		    AND e.jumin_num = #{jumin})
+   		   AND work_on in ( SELECT max(work_on) 
+   				      		  FROM WORK
+   				     		 WHERE NO = (SELECT NO 
+			  		 		 			   FROM EMPLOYEE e
+			        					  WHERE e.name = #{name} 
+			        		  			    AND e.jumin_num = #{jumin}))
+	</update>
+	
+	<select id="selectEmp" resultType="WorkDTO">
+	SELECT NO 
+    FROM EMPLOYEE e
+	WHERE e.name = #{name} 
+    AND e.jumin_num = #{jumin}	        		  			    
+	</select>
+	
+	<select id="selectWork" resultType="WorkDTO">
+	SELECT no, work_on, work_off
+	FROM   WORK
+	WHERE  work_on in ( SELECT max(work_on) 
+   				      		  FROM WORK
+   				     		 WHERE NO = (SELECT NO 
+			  		 		 			   FROM EMPLOYEE e
+			        					  WHERE e.name = #{name} 
+			        		  			    AND e.jumin_num = #{jumin}))
+	AND NO = (SELECT NO 
+ 			    FROM EMPLOYEE e
+			   WHERE e.name = #{name} 
+  			     AND e.jumin_num = #{jumin})		        		  			    
+	</select>
+	
+	
+	<select id="selectWorkList" parameterType="WorkDTO" resultType="WorkDTO">
+		SELECT
+		    ROW_NUMBER() OVER (ORDER BY e.NO, work_on) num,
+			e.NO no,
+			name name,
+			work_on work_date,
+			work_on,
+			work_off,
+			CASE WHEN work_off is NULL THEN NULL
+				 ELSE ROUND((work_off-work_on)*24*60*60,2)||' s'
+   		  END AS work_time
+		 FROM EMPLOYEE e , WORK w
+		WHERE e.NO = w.NO
+		ORDER BY e.NO, WORK_on
+   </select>
+   
+   <!-- 권한x -->
+   <select id="selectWorkList2" parameterType="WorkDTO" resultType="WorkDTO">
+		SELECT
+		    ROW_NUMBER() OVER (ORDER BY e.NO, work_on) num,
+			e.NO no,
+			name name,
+			work_on work_date,
+			work_on,
+			work_off,
+			CASE WHEN work_off is NULL THEN NULL
+				 ELSE ROUND((work_off-work_on)*24*60*60,2)||' s'
+   		  END AS work_time
+		 FROM EMPLOYEE e , WORK w
+		WHERE e.NO in (select no from work where no = #{no})
+		ORDER BY e.NO, WORK_on
+   </select>
+  	
+	<select id="selectWorkList3" parameterType="WorkDTO" resultType="WorkDTO">
+	   SELECT
+		    ROW_NUMBER() OVER (ORDER BY e.NO, work_on) num,
+			e.NO no,
+			name name,
+			work_on work_date,
+			work_on,
+			work_off,
+			CASE WHEN work_off is NULL THEN NULL
+				 WHEN (work_off-work_on)*24>1 THEN TRUNC(FLOOR((work_off-work_on)*24*60)/60)||'h '
+				 || MOD(FLOOR((work_off-work_on)*24*60),60)||'m '
+				 WHEN (work_off-work_on)*24*60>1 THEN FLOOR((work_off-work_on)*24*60)||'m ' 
+				 ELSE FLOOR((work_off-work_on)*24*60*60)||'s ' 
+				 END AS work_time
+		 FROM EMPLOYEE e , WORK w
+		WHERE e.NO = w.NO
+		<include refid="CommonMapper.search_o" />
+		ORDER BY e.NO, WORK_on
+		</select>
+  	
+ <!--  	
+	<select id="selectWorkList2" resultType="WorkDTO">
+		SELECT
+			e.NO no,
+			name name,
+			TO_CHAR(work_on,'yy/mm/dd') work_date,
+			TO_CHAR(work_on,'HH24:MI:SS') work_on,
+			TO_CHAR(work_off,'HH24:MI:SS') work_off,
+			ROUND((work_off-work_on)*24*60*60,2)||'s' work_time
+		FROM EMPLOYEE e , WORK w
+		WHERE e.NO = w.NO
+		ORDER BY e.NO, WORK_on
+   </select>
+ -->
+
+ <select id="selectWorkTotalCount" parameterType="WorkDTO" resultType="int">
+    SELECT
+      COUNT(*)
+    FROM
+      Work w, employee e
+    WHERE w.no = e.no
+    <include refid="CommonMapper.search_o" />
+  </select>
+</mapper>

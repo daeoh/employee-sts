@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="project/layout/basic">
+
+<th:block layout:fragment="content">
+    <div class="box">회원가입 페이지</div>
+    <div class="box2">
+        <div class="box-title">Sign up</div>
+
+        <div class="box2-inbox">
+            <div class="join-wrapper">
+                <form method="post"  th:action="@{/signup}" th:object="${user}"  id="join-form">
+                   <input type="number"  name="employee_no" placeholder="employee number" />
+                    <input type="text"  name="nickname" placeholder="new nickname"/>
+                    <input type="password"  name="pw" placeholder="new password" />
+                    <input type="password"   name="confirmpw" placeholder="confirm password" />
+                    <fieldset>
+                        <legend>약관동의</legend>
+                        <label>
+                            <input type="checkbox" name="agreeProv" value="y">
+                            서비스 약관에 동의합니다.</label>
+                    </fieldset>
+                    <input type="submit" value="Sign up" onclick="registerUser(event)"/>
+                </form>
+                <script th:inline="javascript">
+                function registerUser(event) {
+                	event.preventDefault(); // 기본 제출 동작 방지
+                	/* var successMessage = "[[${successMessage}]]";
+                    var errorMessage = "[[${errorMessage}]]";
+                	 var result = (
+                	            isValid(form.employee_no, "직원번호", null, null) &&
+                	            isValid(form.nickname, "닉네임", null, null) &&
+                	            isValid(form.pw, "비밀번호", null, null)
+                	        );
+                	 if (result==false) {
+                		  alert(errorMessage);
+                     } else {
+                         alert(successMessage); 		
+                     } */
+                	 
+                	 var employeeNo = document.querySelector('input[name="employee_no"]').value.trim();
+                     var nickname = document.querySelector('input[name="nickname"]').value.trim();
+                     var password = document.querySelector('input[name="pw"]').value.trim();
+                     var confirmpw = document.querySelector('input[name="confirmpw"]').value.trim();
+                     
+                     console.log("employee_no:", employeeNo);
+                     console.log("nickname:", nickname);
+                     console.log("pw:", password);
+                     console.log("confirmpw", confirmpw);
+
+                     // 필수 입력 필드가 비어 있는지 확인합니다.
+                     if (!employeeNo || !nickname || !password || !confirmpw) {
+                         alert("모든 필수 정보를 입력하세요.");
+                         return;
+                     }
+                     if (password !== confirmpw) {
+                         alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+                         return;
+                     }
+                     
+                      axios.post("/project/signup", {
+                    	    employee_no: employeeNo,
+                    	    nickname: nickname,
+                    	    pw: password,
+                    	    confirmpw: confirmpw
+                     })
+                     .then(function (response) {
+                         console.log("통신 성공:", response);
+                         var data = response.data;
+                         alert("회원가입 완료");
+                         
+                     })
+                     .catch(function (error) {
+                         console.error("에러 발생:", error);
+                         alert("에러"+error);
+                         alert(error.response.data.errorMessage);
+                         alert("회원가입 오류");
+                     }); 
+                 }
+                
+                	
+                   /*  var successMessage = "[[${successMessage}]]";
+                    var errorMessage = "[[${errorMessage}]]";
+
+                    if (successMessage) {
+                        alert(successMessage);
+                    } else if (errorMessage) {
+                        alert(errorMessage);
+                    }
+                }	 */
+                </script>
+            </div><!-- join-wrapper -->
+        </div><!-- box2_inbox -->
+    </div><!-- box2 -->
+</th:block>
+</html>

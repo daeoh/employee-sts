@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.board.mapper.EmployeeMapper">
+	<insert id="insertDept">
+		insert into dept ( dep_no, dep_name, jikup )
+		values ( #{depNo}, #{depName}, #{jikup})
+	</insert>
+  
+  	<select id="selectEmployeeList" parameterType="EmployeeDTO" resultType="EmployeeDTO">
+  	SELECT ROW_NUMBER() OVER (ORDER BY  d.dep_name) idx,
+	   e.NO no,
+	   name,
+	   jumin_num,
+	   tel_num,
+	   email,
+	   dep_Name,
+	   jikup
+	FROM EMPLOYEE e , DEPT d
+	WHERE d.dep_no = e.dep_no
+  	</select>
+  	
+	<sql id="employeeColumns">
+		  no
+		, name
+		, jumin_num
+		, tel_num
+		, email
+		, dep_no
+		,jikup
+	</sql>
+	
+	<insert id="insertEmployee" parameterType="EmployeeDTO">
+		INSERT INTO employee (
+			<include refid="employeeColumns" />
+		) VALUES (
+			  seq_employee_no.nextval
+			, #{name}
+			, #{juminNum}
+			, #{telNum}
+			, #{email}
+			, #{dep_no}
+			,#{jikup}
+		)
+	</insert>
+	
+	<select id="selectEmployeeDetail" parameterType="long" resultType="EmployeeDTO">
+		SELECT
+			<include refid="employeeColumns" />
+		FROM
+			employee
+		AND
+			no = #{no}
+	</select>
+
+	<update id="updateEmployee" parameterType="EmployeeDTO">
+		UPDATE employee
+		SET
+			  name      = #{name}
+			, jumin_num = #{juminNum}
+			, tel_num   = #{telNum}
+			, email     = #{email}
+			, dep_name    = #{dep_Name}
+		WHERE
+			no = #{no}
+	</update>
+<!-- 
+	<update id="deleteEmployee" parameterType="long">
+		UPDATE employee
+		SET
+			  delete_yn = 'Y'
+			, delete_time = SYSDATE
+		WHERE
+			no = #{no}
+	</update>
+-->
+</mapper>
+  
+	
