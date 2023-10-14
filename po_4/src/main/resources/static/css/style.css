@@ -1,0 +1,195 @@
+/* 메인 페이지_메인*/
+body{
+margin: 0px;
+box-sizing: border-box;
+position: absolute;
+left: 10px;
+right: 10px;
+height: 100%;
+min-width: 600px;
+min-height: 600px;
+background: gray;
+padding: 0px;
+color: white;
+font-size: 12px;
+
+}
+#header{background: black;height: 65px; border-radius: 10px 10px 0px 0px;}
+/* 메인 타이틀 */
+.main{
+position: absolute;
+height: 30px;
+left: 20px;
+top: 0px;
+font-size: 40px;
+line-height: 100%;
+font-weight: 1000;
+margin-top: 10px;
+}
+button{
+position: absolute;
+width: 100px;
+height: 40px;
+right: 35px;
+top: 15px;
+border-radius: 10px;
+background: #2e2e2e;
+font-size: 15px;
+text-align: center;
+color: #FFFFFF;
+font-wight: 1000;
+}
+button:hover { background-color: #51747c;}
+.btn{right: 150px;}
+
+.add{
+position: absolute;
+left: 2%;
+top: 52px;
+width: 80px;
+height: 25px;
+border-radius: 3px;
+font-size: 13px;
+background: #ffffff;
+color:black;
+}
+
+.write{
+border: 2px solid black;
+border-style:outset;
+position: absolute;
+top: 80%;
+right: 15px;
+font-size: 13px;
+text-align: center;
+background: #ffffff;
+border-radius: 5px;
+padding: 5px 10px;
+}
+.write:active 		{ border-style:inset;}
+.write:hover		{ text-decoration:none; background-color: #51747c;}
+.write a:link		{ text-decoration:none; }
+.write a:active		{ text-decoration:none;  color: white;}
+
+.box{
+position: absolute;
+top: 300px;
+margin-top: 40px;
+box-sizing: border-box;
+width: 200px;
+height: 400px;
+max-height: 280px;
+background: #2e2e2e;
+border-radius: 5px;
+font-weight: 600;
+font-size: 13px;
+display: flex;
+justify-content: center;
+align-items: center;
+
+}
+.box2{
+text-align: center;
+position: absolute;
+min-height: 500px;
+left: 205px;
+top: 70px;
+right: 0px;
+bottom: 50px;
+background: #6f6f6f;
+border-radius: 5px;
+}
+.box-title{
+margin:10px;
+font-size: 20px;
+font-weight: 1000;
+}
+.title2{font-size: 20px; font-weight: 1000; text-align:left; margin: 20px 0px 4px 20px;}
+.box2-inbox{
+margin-left: auto;
+margin-right: auto;
+box-sizing: border-box;
+width: 80%;
+height: 80%;
+max-width: 500px;
+background: #2e2e2e;
+border-radius: 10px;
+padding: 60px;
+text-align: center;
+justify-content: center;
+}
+.box-text {font-weight: 350; margin-top: 10px; margin-left: 60px;}
+.box-text2{font-weight: 350; margin-top: 10px; margin-left: 60px; margin-right: 13px;}/*닉네임*/
+
+fieldset{margin: 20px}
+
+/* navigation */
+#navigation{position: absolute; width: 200px; top: 65px; bottom: 10px; background: black;}
+div#navigation ul			{ width:200px; margin-top:1px; margin-left:-39px; list-style-type: none;}
+div#navigation li			{ width:200px; margin-top:-1px }
+div#navigation li a			{ display:block; color:#FFFFFF; margin-left:-1px; width: 160px; padding:5px 20px; font-size:16px;}
+div#navigation li a:link	{ text-decoration:none; }
+div#navigation li a:hover	{ text-decoration:none; background-color: #51747c;}
+div#navigation li a:visited	{ text-decoration:none; }
+div#navigation li a:active	{ text-decoration:none; }
+
+
+.footer{
+position: absolute;
+bottom: 0;
+height: 20px;
+left: 0px;
+right: 0px;
+background: #000000;
+}
+
+/*---------------------------------------------------*/
+
+/*로그인 회원가입*/
+input::placeholder{color: gray;}
+input[type="submit"]{color: black; font-size: 13px; margin-top: 20px;}
+#login-form > input{
+    width: 100%;
+    height: 35px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+    border-radius: 6px;
+    background-color: #F8F8F8;
+}
+#join-form > input{
+    width: 100%;
+    height: 34px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    background-color: #F8F8F8;
+}
+#search-form{position: absolute; right:3%;}
+#search-form > input[type="text"]{
+    height: 25px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+#search-form > input[type="submit"]{margin:0px; height: 25px; border-radius: 5px;}
+/*게시판 외*/
+select {height: 22px; margin-bottom: 10px;}
+/*표*/
+table {margin-top: 35px;
+	   margin-left: auto;
+	   margin-right: auto;
+	   background-color: #ffffff; 
+	   width: 95%;
+	   border-top: 5px solid black;
+	   border-collapse: collapse;
+	   }
+th,td{border: 1px solid gray;}
+th {text-align: center; background-color: gray; color: black; height: 30px;}
+td {text-align: left; color: black; height: 25px; padding: 0px 10px; }
+tr:nth-child(even) {background-color: #c0c0c0;}
+tr:hover {background-color: #51747c;}
+.td-s{width: 10%;}
+.td-m{width: 20%;}
